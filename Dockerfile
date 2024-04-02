@@ -1,23 +1,26 @@
-# Use an official Node image as the parent image
-FROM node:20.12.0-alpine
-
-# Set the working directory
-WORKDIR /app
-
-# Copy dependency files
+# Etapa de construcción
+FROM node:20.12.0-alpine AS builder
+WORKDIR /build
 COPY package*.json ./
-
-# Install project dependencies
 RUN npm install
-
-# Copy the project files
 COPY . .
-
-# Build the application for production
 RUN npm run build
 
-# Expose port 3000
+# Etapa de producción
+FROM node:20.12.0-alpine
+WORKDIR /app
+
+# Copia solo las dependencias de producción
+COPY --from=builder /build/package*.json ./
+RUN npm install --only=production
+
+# Copia los archivos necesarios del build anterior
+COPY --from=builder /build/.next ./.next
+COPY --from=builder /build/public ./public
+COPY --from=builder /build/next.config.mjs ./next.config.mjs 
+
+# Exponer el puerto 3000
 EXPOSE 3000
 
-# Command to run the application
+# Comando para correr la aplicación
 CMD ["npm", "start"]
