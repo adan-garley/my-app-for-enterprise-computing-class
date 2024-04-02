@@ -1,0 +1,36 @@
+# Directorios de dependencias, no necesitamos incluir node_modules porque npm install se encargará de eso
+node_modules
+.npm
+.pnpm-store
+
+# Ignorar directorios de control de versiones
+.git
+.gitignore
+
+# Directorios de logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Directorios y archivos específicos de pruebas, no necesarios para producción
+__tests__
+__mocks__
+test
+*.spec.js
+*.test.js
+
+# Archivos de configuración y documentación no necesarios en producción
+*.md
+LICENSE
+.dockerignore
+
+
+# Otros archivos y directorios que son específicos al desarrollo y no necesarios en producción
+public/uploads
+# Asegúrate de que todos los archivos estáticos necesarios en public/ sean incluidos, excluye solo lo que no necesites
